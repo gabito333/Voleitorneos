@@ -1,0 +1,309 @@
+<!DOCTYPE html><!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VoleiTorneos - Administración de Torneos de Voleibol</title>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Sidebar Navigation -->
+    <sidebar>
+      <div class="brand">
+        <div class="brand-icon">
+          <i class="fa-solid fa-volleyball"></i>
+        </div>
+        <span class="brand-name">VoleiTorneos</span>
+      </div>
+      
+      <ul class="nav-links">
+        <li>
+          <a class="nav-item active" data-view="dashboard">
+            <i class="fa-solid fa-chart-simple"></i>
+            <span>inicio</span>
+          </a>
+        </li>
+        <li>
+          <a class="nav-item" data-view="teams">
+            <i class="fa-solid fa-users"></i>
+            <span>Equipos</span>
+          </a>
+        </li>
+        <li>
+          <a class="nav-item" data-view="create-tournament">
+            <i class="fa-solid fa-trophy"></i>
+            <span>Nuevo Torneo</span>
+          </a>
+        </li>
+        <li>
+          <a class="nav-item" data-view="matches">
+            <i class="fa-solid fa-calendar-days"></i>
+            <span>Partidos</span>
+          </a>
+        </li>
+        <li>
+          <a class="nav-item" data-view="standings">
+            <i class="fa-solid fa-ranking-star"></i>
+            <span>Clasificación</span>
+          </a>
+        </li>
+      </ul>
+      
+      <div class="nav-footer">
+        <p>VoleiTorneos v1.0</p>
+        <p>Metodología Cascada</p>
+      </div>
+    </sidebar>
+
+    <!-- Main Content Area -->
+    <main>
+      
+      <!-- VIEW: DASHBOARD -->
+      <section id="dashboard" class="app-view active">
+        <div class="section-header">
+          <div class="section-title">
+            <h1>Panel Principal</h1>
+            <p>Estado actual de los torneos y estadísticas rápidas.</p>
+          </div>
+        </div>
+        
+        <!-- Stats Widgets -->
+        <div class="grid-2" style="margin-bottom: 2rem;">
+          <div class="glass-card stat-card">
+            <div class="stat-icon cyan">
+              <i class="fa-solid fa-users"></i>
+            </div>
+            <div>
+              <div id="stat-total-teams" class="stat-value">0</div>
+              <div class="stat-label">Equipos Registrados</div>
+            </div>
+          </div>
+          <div class="glass-card stat-card">
+            <div class="stat-icon gold">
+              <i class="fa-solid fa-trophy"></i>
+            </div>
+            <div>
+              <div id="stat-total-tournaments" class="stat-value">0</div>
+              <div class="stat-label">Total Torneos</div>
+            </div>
+          </div>
+        </div>
+
+        <h2 style="font-size: 1.35rem; margin-bottom: 1.25rem; font-weight: 600; color: #fff;">Torneo en Curso</h2>
+        <div id="dashboard-active-details">
+          <!-- Dinámico en JS -->
+        </div>
+      </section>
+
+      <!-- VIEW: TEAMS -->
+      <section id="teams" class="app-view">
+        <div class="section-header">
+          <div class="section-title">
+            <h1>Gestión de Equipos</h1>
+            <p>Registra y administra las plantillas de los equipos de voleibol.</p>
+          </div>
+        </div>
+        
+        <div class="grid-3" style="grid-template-columns: 350px 1fr; align-items: start;">
+          <!-- Register Form -->
+          <div class="glass-card">
+            <h3 style="font-size: 1.25rem; margin-bottom: 1.25rem; border-bottom: 1px solid var(--border-light); padding-bottom: 8px; color: var(--accent-gold);">
+              Registrar Equipo
+            </h3>
+            
+            <form id="form-add-team">
+              <div class="form-group">
+                <label for="team-name">Nombre del Equipo</label>
+                <input type="text" id="team-name" class="form-control" placeholder="Ej. Águilas Vóley Club" required autocomplete="off">
+              </div>
+              
+              <div class="form-group">
+                <label for="team-coach">Entrenador / Director Técnico</label>
+                <input type="text" id="team-coach" class="form-control" placeholder="Ej. Roberto Martínez" required autocomplete="off">
+              </div>
+
+              <div class="form-group">
+                <label>Color Distintivo del Equipo</label>
+                <div id="color-picker-container" class="color-picker-row">
+                  <!-- Dinámico por JS -->
+                </div>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 0.5rem;">
+                <label>Plantilla de Jugadores (Mínimo 6)</label>
+                <div class="player-input-row">
+                  <input type="text" id="player-name-input" class="form-control" placeholder="Nombre de Jugador" autocomplete="off">
+                  <button type="button" id="btn-add-player" class="btn btn-secondary" style="padding: 0 16px;">
+                    <i class="fa-solid fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+              
+              <!-- Chips de Jugadores Registrados -->
+              <div id="player-chips-container" class="player-chips" style="margin-bottom: 1.5rem;">
+                <!-- Dinámico en JS -->
+              </div>
+              
+              <button type="submit" class="btn btn-primary" style="width: 100%;">
+                <i class="fa-solid fa-save"></i> Guardar Equipo
+              </button>
+            </form>
+          </div>
+          
+          <!-- Teams Grid -->
+          <div>
+            <h3 style="font-size: 1.25rem; margin-bottom: 1.25rem; color: var(--text-primary);">Equipos Inscritos</h3>
+            <div id="teams-grid" class="grid-2">
+              <!-- Dinámico en JS -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW: CREATE TOURNAMENT -->
+      <section id="create-tournament" class="app-view">
+        <div class="section-header">
+          <div class="section-title">
+            <h1>Configurar Nuevo Torneo</h1>
+            <p>Configura las llaves y genera el calendario oficial del torneo.</p>
+          </div>
+        </div>
+        
+        <div class="glass-card" style="max-width: 600px; margin: 0 auto;">
+          <h3 style="font-size: 1.25rem; margin-bottom: 1.5rem; color: var(--accent-gold); text-align: center;">Crear Competición</h3>
+          
+          <form id="form-add-tournament">
+            <div class="form-group">
+              <label for="tournament-name">Nombre del Torneo</label>
+              <input type="text" id="tournament-name" class="form-control" placeholder="Ej. Torneo Apertura 2026" required autocomplete="off">
+            </div>
+            
+            <div class="form-group">
+              <label for="tournament-type">Modalidad de Competencia</label>
+              <select id="tournament-type" class="form-control">
+                <option value="round-robin">Todos contra todos (Round Robin / Liga)</option>
+                <option value="single-elimination">Eliminación Directa (Playoffs / Llaves)</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label style="margin-bottom: 10px;">Selecciona los Equipos Participantes</label>
+              <div id="teams-selection-container" style="max-height: 250px; overflow-y: auto; padding-right: 5px;">
+                <!-- Lista de equipos con checkbox por JS -->
+              </div>
+            </div>
+            
+            <button type="submit" class="btn btn-accent" style="width: 100%; margin-top: 1rem;">
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Generar Fixture e Iniciar Torneo
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- VIEW: MATCHES -->
+      <section id="matches" class="app-view">
+        <div class="section-header">
+          <div class="section-title">
+            <h1>Partidos y Resultados</h1>
+            <p>Controla las jornadas del torneo y registra el marcador de sets de voleibol.</p>
+          </div>
+        </div>
+        
+        <div id="matches-list-view">
+          <!-- Dinámico en JS -->
+        </div>
+      </section>
+
+      <!-- VIEW: STANDINGS -->
+      <section id="standings" class="app-view">
+        <div class="section-header">
+          <div class="section-title">
+            <h1>Tabla y Clasificación</h1>
+            <p>Visualiza el progreso general del campeonato, cocientes FIVB o llaves eliminatorias.</p>
+          </div>
+        </div>
+        
+        <div id="standings-view-content">
+          <!-- Dinámico en JS -->
+        </div>
+      </section>
+      
+    </main>
+  </div>
+
+  <!-- MODAL: REGISTRAR MARCADOR DE PARTIDO -->
+  <div id="modal-score-overlay" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Registrar Marcador</h3>
+        <button id="modal-close-btn" class="modal-close">&times;</button>
+      </div>
+      
+      <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem; text-align: center;">
+        <span id="modal-team-a-name" style="font-weight: 700; color: #fff;">Equipo A</span> vs 
+        <span id="modal-team-b-name" style="font-weight: 700; color: #fff;">Equipo B</span>
+      </p>
+      
+      <form id="form-match-score">
+        <div class="set-inputs-grid">
+          
+          <!-- Set 1 (Min 25 Pts) -->
+          <div class="set-input-row">
+            <span class="team-name-label team-label-a">Equipo A</span>
+            <input type="number" id="set1-a" class="form-control set-input-score" min="0" required placeholder="0">
+            <span>-</span>
+            <input type="number" id="set1-b" class="form-control set-input-score" min="0" required placeholder="0">
+            <span class="team-name-label team-label-b right">Equipo B</span>
+          </div>
+          <p style="text-align: center; font-size: 0.75rem; color: var(--text-muted); margin-top: -8px; margin-bottom: 8px;">
+            Set 1 (Ganador al menos 25 pts y diferencia de 2)
+          </p>
+
+          <!-- Set 2 (Min 25 Pts) -->
+          <div class="set-input-row">
+            <span class="team-name-label team-label-a">Equipo A</span>
+            <input type="number" id="set2-a" class="form-control set-input-score" min="0" required placeholder="0">
+            <span>-</span>
+            <input type="number" id="set2-b" class="form-control set-input-score" min="0" required placeholder="0">
+            <span class="team-name-label team-label-b right">Equipo B</span>
+          </div>
+          <p style="text-align: center; font-size: 0.75rem; color: var(--text-muted); margin-top: -8px; margin-bottom: 8px;">
+            Set 2 (Ganador al menos 25 pts y diferencia de 2)
+          </p>
+
+          <!-- Set 3 (Tie-breaker Min 15 Pts) -->
+          <div class="set-input-row" style="background-color: rgba(255, 159, 28, 0.04); border-color: rgba(255, 159, 28, 0.15);">
+            <span class="team-name-label team-label-a">Equipo A</span>
+            <input type="number" id="set3-a" class="form-control set-input-score" min="0" placeholder="0">
+            <span>-</span>
+            <input type="number" id="set3-b" class="form-control set-input-score" min="0" placeholder="0">
+            <span class="team-name-label team-label-b right">Equipo B</span>
+          </div>
+          <p style="text-align: center; font-size: 0.75rem; color: var(--accent-gold); margin-top: -8px;">
+            Set 3 - Tie Break (Solo si empatan 1-1. Se juega a 15 pts)
+          </p>
+
+        </div>
+        
+        <div style="display: flex; gap: 12px; margin-top: 2rem;">
+          <button type="button" class="btn btn-secondary" style="flex: 1;" onclick="document.getElementById('modal-score-overlay').classList.remove('open')">
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-primary" style="flex: 1;">
+            <i class="fa-solid fa-check"></i> Registrar Marcador
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- JavaScript Logica -->
+  <script src="app.js"></script>
+</body>
+</html>
